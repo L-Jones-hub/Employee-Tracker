@@ -41,7 +41,9 @@ function viewAllEmployees() {
 }
 
 function createEmployee() {
-  db.promise().query("INSERT INTO employee SET ?");
+  db.promise()
+    .query("INSERT INTO employee SET ?")
+    .then(() => init.initialize());
 }
 
 function viewAllRoles() {
@@ -49,19 +51,22 @@ function viewAllRoles() {
     .query(
       "SELECT role.id, department.name AS department, role.salary FROM role"
     )
-    .then((results) => console.table(results[0]));
+    .then((results) => console.table(results[0]))
+    .then(() => init.initialize());
 }
 
 function updateEmployeeRole() {
   db.promise()
     .query("UPDATE employee SET role_id = ? WHERE id = ?")
-    .then((results) => console.table(results[0]));
+    .then((results) => console.table(results[0]))
+    .then(() => init.initialize());
 }
 
 function createRole() {
   db.promise()
     .query("INSERT INTO role SET ?")
-    .then((results) => console.table(results[0]));
+    .then((results) => console.table(results[0]))
+    .then(() => init.initialize());
 }
 
 module.exports = {
