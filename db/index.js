@@ -1,56 +1,61 @@
 const connection = require("./connection");
+const table = require("console.table");
+const mysql2 = require("mysql2");
 
-class DB {
-  constructor(connection) {
-    this.connection = connection;
-  }
+const db = mysql2.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "employees_db",
+});
 
-  findAllDepartments() {
+  function viewAllDepartments() {
     return this.connection
       .promise()
       .query("SELECT department.id FROM department;");
-  }
+  };
 
-  createDepartment(department) {
+  function createDepartment(department) {
     return this.connection
       .promise()
       .query("INSERT INTO department SET ?", department);
-  }
+  };
 
-  findAllEmployees() {
+  function viewAllEmployees() {
     return this.connection
       .promise()
       .query(
         "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary"
       );
-  }
+  };
 
-  createEmployee(employee) {
+  function createEmployee(employee) {
     return this.connection
       .promise()
       .query("INSERT INTO employee SET ?", employee);
-  }
+  };
 
-  findAllRoles() {
+  function viewAllRoles() {
     return this.connection
       .promise()
       .query(
         "SELECT role.id, department.name AS department, role.salary FROM role"
-      );
-  }
+      )
+      .then((results) => console.table(`/n`, results[0], "/n"));
+  };
 
-  updateEmployeeRole(employeeId, roleId) {
+  function updateEmployeeRole(employeeId, roleId) {
     return this.connection
       .promise()
       .query("UPDATE employee SET role_id = ? WHERE id = ?", [
         employeeId,
         roleId,
       ]);
-  }
+  };
 
-  createRole(role) {
+  function createRole(role) {
     return this.connection.promise().query("INSERT INTO role SET ?", role);
-  }
-}
+  };
+
 
 module.exports = new DB(connection);

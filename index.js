@@ -71,7 +71,7 @@ function initialize() {
 }
 
 function viewDepartments() {
-  db.findAllDepartments()
+  db.viewAllDepartments()
     .then(([rows]) => {
       let departments = rows;
       console.table(departments);
@@ -131,7 +131,7 @@ function addEmployee() {
       }).then((res) => {
         let roleId = res.roleId;
 
-        db.findAllEmployees().then(([rows]) => {
+        db.viewAllEmployees().then(([rows]) => {
           let employees = rows;
           const managerChoices = employees.map(
             ({ id, first_name, last_name }) => ({
