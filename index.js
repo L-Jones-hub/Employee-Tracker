@@ -48,6 +48,8 @@ function initialize() {
     switch (choice) {
       case "VIEW_DEPARTMENTS":
         viewDepartments();
+      case "ADD_DEPARTMENT":
+        addDepartment();
       case "VIEW_EMPLOYEES":
         viewEmployees();
       case "ADD_EMPLOYEE":
@@ -58,11 +60,32 @@ function initialize() {
         viewAllRoles();
       case "ADD_ROLE":
         addRole();
-      case "ADD_DEPARTMENT":
-        addDepartment();
         break;
       default:
         finished();
     }
+  });
+}
+
+function viewDepartments() {
+  db.findAllDepartments()
+    .then(([rows]) => {
+      let departments = rows;
+      console.table(departments);
+    })
+    .then(() => initialize());
+}
+
+function addDepartment() {
+  prompt([
+    {
+      name: "name",
+      message: "What is the name of the department?",
+    },
+  ]).then((res) => {
+    let name = res;
+    db.createDepartment(name)
+      .then(() => console.log(`Added ${name.name} to the database`))
+      .then(() => initialize());
   });
 }
