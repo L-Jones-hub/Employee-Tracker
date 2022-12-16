@@ -158,7 +158,7 @@ function addEmployee() {
             .then(() =>
               console.log(`Added ${firstName} ${lastName} to the database`)
             )
-            .then(() => loadMainPrompts());
+            .then(() => initialize());
         });
       });
     });
@@ -199,7 +199,7 @@ function updateEmployeeRole() {
         ])
           .then((res) => db.updateEmployeeRole(employeeId, res.roleId))
           .then(() => console.log("Updated employee's role"))
-          .then(() => loadMainPrompts());
+          .then(() => initialize());
       });
     });
   });
@@ -240,7 +240,7 @@ function addRole() {
     ]).then((role) => {
       db.createRole(role)
         .then(() => console.log(`Added ${role.title} to the database`))
-        .then(() => loadMainPrompts());
+        .then(() => initialize());
     });
   });
 }
