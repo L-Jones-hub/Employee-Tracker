@@ -17,7 +17,7 @@ This is a command-line interface to track employees.
 
 ## How to Use
 
-Watch [this video]() to see a partial demonstration of how to use this Employee Tracker.
+Watch [this video](https://www.loom.com/share/6591c0ec25b746919680819e63e23a16) to see a partial demonstration of how to use this Employee Tracker.
 
 ---
 
