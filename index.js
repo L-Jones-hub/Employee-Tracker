@@ -3,6 +3,8 @@ const db = require("./db");
 
 require("console.table");
 
+initialize();
+
 function initialize() {
   prompt([
     {
@@ -45,6 +47,7 @@ function initialize() {
       ],
     },
   ]).then((res) => {
+    let choice = res.choice;
     switch (choice) {
       case "VIEW_DEPARTMENTS":
         viewDepartments();
