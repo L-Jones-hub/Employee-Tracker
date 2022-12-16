@@ -30,7 +30,7 @@ class DB {
       .promise()
       .query("INSERT INTO employee SET ?", employee);
   }
-  
+
   findAllRoles() {
     return this.connection
       .promise()
@@ -38,4 +38,19 @@ class DB {
         "SELECT role.id, department.name AS department, role.salary FROM role"
       );
   }
+
+  updateEmployeeRole(employeeId, roleId) {
+    return this.connection
+      .promise()
+      .query("UPDATE employee SET role_id = ? WHERE id = ?", [
+        employeeId,
+        roleId,
+      ]);
+  }
+
+  createRole(role) {
+    return this.connection.promise().query("INSERT INTO role SET ?", role);
+  }
 }
+
+module.exports = new DB(connection);
