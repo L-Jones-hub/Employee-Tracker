@@ -1,6 +1,5 @@
-const connection = require("./connection");
-const table = require("console.table");
 const mysql2 = require("mysql2");
+const init = require("../index.js");
 
 const db = mysql2.createConnection({
   host: "localhost",
@@ -9,53 +8,68 @@ const db = mysql2.createConnection({
   database: "employees_db",
 });
 
-  function viewAllDepartments() {
-    return this.connection
-      .promise()
-      .query("SELECT department.id FROM department;");
-  };
+function viewAllDepartments() {
+  db.promise()
+    .query("SELECT * FROM department;")
+    .then((results) => console.table(results[0]))
+    .then(() => init.initialize());
+}
 
-  function createDepartment(department) {
-    return this.connection
-      .promise()
-      .query("INSERT INTO department SET ?", department);
-  };
+function createDepartment(response) {
+  db.promise()
+    .query(
+      "INSERT INTO department SET ?",
+      response.newDepartmentName,
+      (error, result) => {
+        if (error) {
+          console.log(error);
+        } else console.log("Success!");
+      }
+    )
+    .then(() => {
+      init.initialize();
+    });
+}
 
-  function viewAllEmployees() {
-    return this.connection
-      .promise()
-      .query(
-        "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary"
-      );
-  };
+function viewAllEmployees() {
+  db.promise()
+    .query(
+      "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary"
+    )
+    .then((results) => console.table(results[0]))
+    .then(() => init.initialize());
+}
 
-  function createEmployee(employee) {
-    return this.connection
-      .promise()
-      .query("INSERT INTO employee SET ?", employee);
-  };
+function createEmployee() {
+  db.promise().query("INSERT INTO employee SET ?");
+}
 
-  function viewAllRoles() {
-    return this.connection
-      .promise()
-      .query(
-        "SELECT role.id, department.name AS department, role.salary FROM role"
-      )
-      .then((results) => console.table(`/n`, results[0], "/n"));
-  };
+function viewAllRoles() {
+  db.promise()
+    .query(
+      "SELECT role.id, department.name AS department, role.salary FROM role"
+    )
+    .then((results) => console.table(results[0]));
+}
 
-  function updateEmployeeRole(employeeId, roleId) {
-    return this.connection
-      .promise()
-      .query("UPDATE employee SET role_id = ? WHERE id = ?", [
-        employeeId,
-        roleId,
-      ]);
-  };
+function updateEmployeeRole() {
+  db.promise()
+    .query("UPDATE employee SET role_id = ? WHERE id = ?")
+    .then((results) => console.table(results[0]));
+}
 
-  function createRole(role) {
-    return this.connection.promise().query("INSERT INTO role SET ?", role);
-  };
+function createRole() {
+  db.promise()
+    .query("INSERT INTO role SET ?")
+    .then((results) => console.table(results[0]));
+}
 
-
-module.exports = new DB(connection);
+module.exports = {
+  viewAllDepartments,
+  createDepartment,
+  viewAllEmployees,
+  createEmployee,
+  viewAllRoles,
+  updateEmployeeRole,
+  createRole,
+};
