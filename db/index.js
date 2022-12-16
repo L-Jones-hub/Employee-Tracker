@@ -10,7 +10,11 @@ const db = mysql2.createConnection({
 
 function viewAllDepartments() {
   db.promise()
-    .query("SELECT * FROM department;")
+    .query("SELECT * FROM department", (error, result) => {
+      if (error) {
+        console.log(error);
+      } else console.log("Success!");
+    })
     .then((results) => console.table(results[0]))
     .then(() => init.initialize());
 }
@@ -34,7 +38,12 @@ function createDepartment(response) {
 function viewAllEmployees() {
   db.promise()
     .query(
-      "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary"
+      "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary",
+      (error, result) => {
+        if (error) {
+          console.log(error);
+        } else console.log("Success!");
+      }
     )
     .then((results) => console.table(results[0]))
     .then(() => init.initialize());
@@ -42,14 +51,23 @@ function viewAllEmployees() {
 
 function createEmployee() {
   db.promise()
-    .query("INSERT INTO employee SET ?")
+    .query("INSERT INTO employee SET ?", (error, result) => {
+      if (error) {
+        console.log(error);
+      } else console.log("Success!");
+    })
     .then(() => init.initialize());
 }
 
 function viewAllRoles() {
   db.promise()
     .query(
-      "SELECT role.id, department.name AS department, role.salary FROM role"
+      "SELECT role.id, department.name AS department, role.salary FROM role",
+      (error, result) => {
+        if (error) {
+          console.log(error);
+        } else console.log("Success!");
+      }
     )
     .then((results) => console.table(results[0]))
     .then(() => init.initialize());
@@ -57,14 +75,22 @@ function viewAllRoles() {
 
 function updateEmployeeRole() {
   db.promise()
-    .query("UPDATE employee SET role_id = ? WHERE id = ?")
+    .query("UPDATE employee SET role_id = ? WHERE id = ?", (error, result) => {
+      if (error) {
+        console.log(error);
+      } else console.log("Success!");
+    })
     .then((results) => console.table(results[0]))
     .then(() => init.initialize());
 }
 
 function createRole() {
   db.promise()
-    .query("INSERT INTO role SET ?")
+    .query("INSERT INTO role SET ?", (error, result) => {
+      if (error) {
+        console.log(error);
+      } else console.log("Success!");
+    })
     .then((results) => console.table(results[0]))
     .then(() => init.initialize());
 }
